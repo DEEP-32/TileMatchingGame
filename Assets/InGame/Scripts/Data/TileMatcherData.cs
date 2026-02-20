@@ -5,6 +5,7 @@ using UnityEngine;
 namespace TileMatching.Data {
     
     public enum TileColorKey {
+        None = 0,
         Red,
         Green,
         Blue,
@@ -31,7 +32,13 @@ namespace TileMatching.Data {
         public Color GetTileColor(TileColorKey tileColorKey) {
             return tileMatcherData.
                 Where(key => key.TileColorKey == tileColorKey).
-                Select(key => key.TileColor).FirstOrDefault();
+                Select(key => key.TileColor).
+                FirstOrDefault();
+        }
+        
+        public TileMatcherDataEntry GetTileData(TileColorKey tileColorKey) {
+            return tileMatcherData.
+                FirstOrDefault(key => key.TileColorKey == tileColorKey);
         }
     }
 }

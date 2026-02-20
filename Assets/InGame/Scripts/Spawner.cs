@@ -9,9 +9,16 @@ namespace TileMatching {
         [SerializeField,Tooltip("Which color tile it should spawn")] TileColorKey tileColorKey;
         [SerializeField] List<Transform> spawnPoints;
 
+        [SerializeField] MeshRenderer meshRenderer;
+        
+        List<GameObject> spawnedTiles = new List<GameObject>();
 
-        public void Spawn(TileColorKey colorKey) {
-            
+        public void Spawn(TileColorKey colorKey = TileColorKey.None) {
+            if (colorKey == TileColorKey.None) {
+                colorKey = tileColorKey;
+            }
+
+            meshRenderer.material = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(colorKey).Material;
             SpawnTile(colorKey);
         }
         
@@ -19,6 +26,9 @@ namespace TileMatching {
             for (var i = 0; i < spawnPoints.Count; i++) {
                 var tileGameObject = ObjectPooler.Instance.GetPooledObject(tilePrefab);
                 tileGameObject.transform.position = spawnPoints[i].position;
+                tileGameObject.transform.rotation = spawnPoints[i].rotation;
+                tileGameObject.SetActive(true);
+                spawnedTiles.Add(tileGameObject);
             }
         }
         

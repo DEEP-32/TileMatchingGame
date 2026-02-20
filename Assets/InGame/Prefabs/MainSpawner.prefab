@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4921094590657460861}
   - component: {fileID: 8889766832941609722}
   - component: {fileID: 4050305804166004418}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MainSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,6 +231,7 @@ MonoBehaviour:
   - {fileID: 2772859216046682261}
   - {fileID: 4977167088439564023}
   - {fileID: 8183303888505494636}
+  meshRenderer: {fileID: 4921094590657460861}
 --- !u!1 &7820801280589590877
 GameObject:
   m_ObjectHideFlags: 0

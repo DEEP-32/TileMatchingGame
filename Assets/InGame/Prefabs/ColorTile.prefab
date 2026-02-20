@@ -137,8 +137,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7799419377674577242}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9400681, z: 0, w: -0.34098676}
-  m_LocalPosition: {x: 1.2056397, y: -0.034863383, z: 19.48335}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7799419377674577242}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ddc1a2536715a24095c464a2c394d5d, type: 3}
   m_Name: 
@@ -231,11 +231,11 @@ MonoBehaviour:
   targetRigidbody2D: {fileID: 0}
   targetTransform: {fileID: 8448374763259070050}
   _result:
-    position: {x: 1.2056397, y: -0.034863383, z: 19.48335}
-    up: {x: 0, y: 0, z: -0.5}
-    forward: {x: -0.32032177, y: -0.018897908, z: -0.38345382}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 0.5
+    position: {x: 0, y: 0, z: 0}
+    up: {x: 0, y: 0, z: 0}
+    forward: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    size: 0
     percent: 0
   wrapMode: 0
   followMode: 0
