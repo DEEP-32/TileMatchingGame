@@ -19,7 +19,7 @@ namespace TileMatching.Utils {
             if (shouldPoolAutomatically) {
                 for (var i = 0; i < objectsToPool.Count; i++) {
                     InitializePool(objectsToPool[i]);
-                    PreWardPool(objectsToPool[i]);
+                    PreWarmPool(objectsToPool[i]);
                 }
             }
         }
@@ -44,13 +44,12 @@ namespace TileMatching.Utils {
         }
 
         private GameObject InstantiatePooledObject(GameObject prefab) {
-            
             var instance = Instantiate(prefab, transform);
             instance.SetActive(false);
             return instance;
         }
 
-        public void PreWardPool(GameObject prefab) {
+        public void PreWarmPool(GameObject prefab) {
             List<GameObject> objects = new List<GameObject>(defaultPoolSize);
             if (pools == null || !pools.ContainsKey(prefab)) {
                 Debug.LogWarning($"Cant pre warm the {prefab.name} as its not initialized");

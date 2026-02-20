@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using TileMatching.Utils;
 using UnityEngine;
 
 namespace TileMatching {
-    public class TileHandler : MonoBehaviour {
+    public class TileHandler : PersistentSingleton<TileHandler> {
 
         [SerializeField] float totalDuration = 1f;
         [SerializeField] float startDelay = .2f;
@@ -18,6 +19,8 @@ namespace TileMatching {
             for (var i = 0; i < tiles.Count; i++) {
                 Tile tile = tiles[i];
                 float delay = i * startDelay;
+                
+                Debug.Log($"AnimateTiles: is tile null : {tile == null} for index : {i}");
                 
                 var posTween = tile.transform.DOMove(toTransform.position, totalDuration);
                 var rotTween = tile.transform.DORotateQuaternion(toTransform.rotation, totalDuration);

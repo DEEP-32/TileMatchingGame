@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using TileMatching.Data;
+using TileMatching.Interaction;
 using TileMatching.Utils;
 using UnityEngine;
 
 namespace TileMatching {
-    public class Spawner : MonoBehaviour {
+    public class Spawner : MonoBehaviour,IInteractable {
         [SerializeField] GameObject tilePrefab;
         [SerializeField,Tooltip("Which color tile it should spawn")] TileColorKey tileColorKey;
         [SerializeField] List<Transform> spawnPoints;
 
         [SerializeField] MeshRenderer meshRenderer;
         
-        List<GameObject> spawnedTiles = new List<GameObject>();
+        List<Tile> spawnedTiles = new List<Tile>();
 
         public void Spawn(TileColorKey colorKey = TileColorKey.None) {
             if (colorKey == TileColorKey.None) {
@@ -28,9 +29,13 @@ namespace TileMatching {
                 tileGameObject.transform.position = spawnPoints[i].position;
                 tileGameObject.transform.rotation = spawnPoints[i].rotation;
                 tileGameObject.SetActive(true);
-                spawnedTiles.Add(tileGameObject);
+                spawnedTiles.Add(tileGameObject.GetComponent<Tile>());
             }
         }
-        
+
+        public void Interact() {
+            var toTransform = GameManager.Instance.LevelDataHolder.StartPoint;
+            TileHandler.Instance.AnimateTiles(spawnedTiles,toTransform);
+        }
     }
 }

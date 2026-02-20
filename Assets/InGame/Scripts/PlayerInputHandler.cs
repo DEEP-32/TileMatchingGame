@@ -1,4 +1,5 @@
 using System;
+using TileMatching.Interaction;
 using TileMatching.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +37,12 @@ namespace TileMatching {
                 
                 if (Physics.Raycast(ray, out RaycastHit hit,Mathf.Infinity,tapLayerMask,QueryTriggerInteraction.Ignore)) {
                     Debug.Log("Hit: " + hit.collider.gameObject.name);
+
+                    if (hit.transform.TryGetComponent(out IInteractable interactable)) {
+                        Debug.Log("Interacting with : " + hit.collider.gameObject.name);
+                        interactable.Interact();
+                    }
+
                     // Interaction logic here
                 }
             }
