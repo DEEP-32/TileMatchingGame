@@ -15,9 +15,13 @@ MonoBehaviour:
   tileMatcherData:
   - colorKey: 0
     color: {r: 0.8773585, g: 0.15312389, b: 0.15312389, a: 0}
+    material: {fileID: 2100000, guid: 611ca127984d19e41a66643161306c92, type: 2}
   - colorKey: 1
     color: {r: 0, g: 0.8773585, b: 0.009389607, a: 0}
+    material: {fileID: 2100000, guid: 60caa83a99dfd18459146615c8929942, type: 2}
   - colorKey: 2
-    color: {r: 0.8490566, g: 0.108134575, b: 0.7981455, a: 0}
+    color: {r: 0.13950695, g: 0.56058484, b: 0.8962264, a: 1}
+    material: {fileID: 2100000, guid: 2c0b82c5f32bc7d4e87343f382038a5c, type: 2}
   - colorKey: 3
     color: {r: 1, g: 0.6691481, b: 0, a: 0}
+    material: {fileID: 2100000, guid: 92f756f837abe7144be2c75c922a29fe, type: 2}
