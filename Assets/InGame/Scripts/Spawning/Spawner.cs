@@ -51,7 +51,7 @@ namespace TileMatching.Spawning {
         public void Interact() {
             var levelData = GameManager.Instance.LevelDataHolder;
             var toTransform = levelData.StartPoint;
-            TileHandler.Instance.AnimateTiles(
+            TileHandler.Instance.AnimateTilesToSpline(
                 spawnedTiles,
                 toTransform,
                 OnSingleTileReached,

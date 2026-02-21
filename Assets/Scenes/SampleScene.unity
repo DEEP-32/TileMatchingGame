@@ -1107,13 +1107,40 @@ MonoBehaviour:
   triggerGroups:
   - open: 1
     enabled: 1
-    name: StartPoint
+    name: TileMatching
     color: {r: 1, g: 1, b: 1, a: 1}
     triggers:
     - name: Trigger 1
+      type: 1
+      workOnce: 0
+      position: 0.11500000208616257
+      enabled: 1
+      color: {r: 1, g: 1, b: 1, a: 1}
+      onCross:
+        m_PersistentCalls:
+          m_Calls: []
+    - name: Trigger 2
       type: 0
       workOnce: 0
-      position: 0.04440461844205856
+      position: 0.4560000002384186
+      enabled: 1
+      color: {r: 1, g: 1, b: 1, a: 1}
+      onCross:
+        m_PersistentCalls:
+          m_Calls: []
+    - name: Trigger 3
+      type: 0
+      workOnce: 0
+      position: 0.6340000033378601
+      enabled: 1
+      color: {r: 1, g: 1, b: 1, a: 1}
+      onCross:
+        m_PersistentCalls:
+          m_Calls: []
+    - name: Trigger 4
+      type: 0
+      workOnce: 0
+      position: 0.9649999737739563
       enabled: 1
       color: {r: 1, g: 1, b: 1, a: 1}
       onCross:
@@ -2032,7 +2059,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360570451}
-  m_Mesh: {fileID: 2144526184}
+  m_Mesh: {fileID: 2109946632}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3719,7 +3746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dededf35c194aaea476f682638ef376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileMatching.TileHandler
-  AutoUnparentOnAwake: 1
   totalDuration: 0.6
   startDelay: 0.5
 --- !u!114 &2085389917 stripped
@@ -3733,7 +3759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ddc1a2536715a24095c464a2c394d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Dreamteck.Splines::Dreamteck.Splines.SplineFollower
---- !u!43 &2144526184
+--- !u!43 &2109946632
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

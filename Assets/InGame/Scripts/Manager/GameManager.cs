@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Dreamteck.Splines;
 using TileMatching.Data;
 using TileMatching.Utils;
 using UnityEngine;
@@ -19,9 +20,21 @@ namespace TileMatching{
         }
 
         private void StartGame() {
+            var splineTriggers = LevelDataHolder.SplineComputer.triggerGroups[0].triggers;
+
+            foreach (var trigger in splineTriggers) {
+                trigger.onCross.AddListener(OnSplineUserReachTrigger);
+                Debug.Log("Added listener for trigger : " + trigger.name);
+            }
+
             foreach (var spawner in levelDataHolder.Spawners) {
                 spawner.Spawn();
             }
+        }
+        
+        private void OnSplineUserReachTrigger(SplineUser splineUser) {
+            splineUser.enabled = false;
+            //TileHandler.Instance.AnimateTileFromSplineToEnd(splineUser.GetComponent<Tile>(),);
         }
     }
 }
