@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TileMatching.Utils;
 using UnityEngine;
@@ -7,9 +8,17 @@ using UnityEngine;
 namespace TileMatching {
     public class TileHandler : PersistentSingleton<TileHandler> {
 
+        List<TileCrate> tileCrates = new List<TileCrate>();
+        
         [SerializeField] float totalDuration = 1f;
         [SerializeField] float startDelay = .2f;
-        
+
+
+        protected override void Awake() {
+            base.Awake();
+            tileCrates = FindObjectsByType<TileCrate>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+        }
+
         public void AnimateTiles(List<Tile> tiles,Transform toTransform ,Action<Tile> onSingleTileReached = null, Action onComplete = null) {
             if (tiles == null || tiles.Count == 0) {
                 return;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dreamteck.Splines;
+using TileMatching.Spawning;
 using UnityEngine;
 
 namespace TileMatching {

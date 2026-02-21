@@ -105,9 +105,9 @@ GameObject:
   - component: {fileID: 7913415284008529466}
   - component: {fileID: 4921094590657460861}
   - component: {fileID: 8889766832941609722}
-  - component: {fileID: 4050305804166004418}
-  m_Layer: 6
-  m_Name: MainSpawner
+  - component: {fileID: -2497788800417233933}
+  m_Layer: 0
+  m_Name: TileHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 6.1003895, z: 1}
   m_Center: {x: 0, y: 2.5501964, z: 0}
---- !u!114 &4050305804166004418
+--- !u!114 &-2497788800417233933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,18 +220,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4802166618097203001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf923fa8df9141c08e63c2b726bcbb26, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f2f1028e66740b5baef17969e94b101, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Spawner
-  tilePrefab: {fileID: 7799419377674577242, guid: a7c0381f86bde5f41a333f306ce62a18, type: 3}
-  tileColorKey: 1
-  spawnPoints:
+  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Spawning.TilePositionHolder
+  points:
   - {fileID: 1786261863243877382}
   - {fileID: 684999835179629618}
   - {fileID: 2772859216046682261}
   - {fileID: 4977167088439564023}
   - {fileID: 8183303888505494636}
-  meshRenderer: {fileID: 4921094590657460861}
 --- !u!1 &7820801280589590877
 GameObject:
   m_ObjectHideFlags: 0

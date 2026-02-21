@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -21,11 +23,22 @@ namespace TileMatching.Utils {
             return Vector2.zero;
         }
         
-        public static T GetRandomEnumValue<T>() where T : Enum  // Generic for any enum
+        public static T GetRandomEnumValue<T>(params T[] exclusions) where T : Enum
         {
-            Array values = Enum.GetValues(typeof(T));  // Get all enum values
-            int randomIndex = Random.Range(0, values.Length);  // Random index [0, count)
-            return (T)values.GetValue(randomIndex);  // Cast back to enum
+            // Get all values
+            T[] allValues = (T[])Enum.GetValues(typeof(T));
+
+            // Filter exclusions (using LINQ for simplicity)
+            List<T> filtered = allValues.Where(v => !exclusions.Contains(v)).ToList();
+
+            if (filtered.Count == 0)
+            {
+                throw new InvalidOperationException("No enum values left after exclusions.");
+            }
+
+            // Random index from filtered
+            int randomIndex = Random.Range(0, filtered.Count);
+            return filtered[randomIndex];
         }
     }
 }
