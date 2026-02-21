@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace TileMatching.Utils {
     public class Utility {
@@ -17,6 +19,13 @@ namespace TileMatching.Utils {
             }
             
             return Vector2.zero;
+        }
+        
+        public static T GetRandomEnumValue<T>() where T : Enum  // Generic for any enum
+        {
+            Array values = Enum.GetValues(typeof(T));  // Get all enum values
+            int randomIndex = Random.Range(0, values.Length);  // Random index [0, count)
+            return (T)values.GetValue(randomIndex);  // Cast back to enum
         }
     }
 }

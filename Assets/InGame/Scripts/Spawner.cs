@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace TileMatching {
     public class Spawner : MonoBehaviour,IInteractable {
+        readonly static int BaseColor = Shader.PropertyToID("_BaseColor");
         [SerializeField] GameObject tilePrefab;
         [SerializeField,Tooltip("Which color tile it should spawn")] TileColorKey tileColorKey;
         [SerializeField] List<Transform> spawnPoints;
@@ -20,7 +21,11 @@ namespace TileMatching {
                 colorKey = tileColorKey;
             }
 
-            meshRenderer.material = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(colorKey).Material;
+            //meshRenderer.material = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(colorKey).Material;
+            var randomEnumValue = Utility.GetRandomEnumValue<TileColorKey>();
+            var randomSpawnerColor = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(randomEnumValue).TileColor;
+            meshRenderer.material.SetColor(BaseColor,randomSpawnerColor );
+            
             SpawnTile(colorKey);
         }
         
