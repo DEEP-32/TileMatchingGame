@@ -44,9 +44,23 @@ namespace TileMatching {
         public void Interact() {
             var levelData = GameManager.Instance.LevelDataHolder;
             var toTransform = levelData.StartPoint;
-            TileHandler.Instance.AnimateTiles(spawnedTiles,toTransform, (tile) => {
-                tile.AllowSplineMovement(true, levelData.GetStartPointPercent());
-            });
+            TileHandler.Instance.AnimateTiles(
+                spawnedTiles,
+                toTransform,
+                OnSingleTileReached,
+                OnAllTilesReached
+            );
+        }
+        
+        private void OnSingleTileReached(Tile tile) {
+            var levelData = GameManager.Instance.LevelDataHolder;
+            tile.AllowSplineMovement(true, levelData.GetStartPointPercent());
+        }
+        
+        private void OnAllTilesReached() {
+            //Spawn the tiles again , with different color
+            
+            
         }
     }
 }
