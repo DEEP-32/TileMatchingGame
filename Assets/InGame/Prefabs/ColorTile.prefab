@@ -121,8 +121,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8448374763259070050}
-  - component: {fileID: 8179561138222118235}
   - component: {fileID: 741071880342271218}
+  - component: {fileID: 8179561138222118235}
   m_Layer: 0
   m_Name: ColorTile
   m_TagString: Untagged
@@ -146,6 +146,20 @@ Transform:
   - {fileID: 8286657727265539866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &741071880342271218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799419377674577242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e7ad5c42d40f74a92aa1ea4ec7b505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Tile
+  splineFollower: {fileID: 8179561138222118235}
+  meshRenderer: {fileID: 8402400975287999221}
 --- !u!114 &8179561138222118235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,11 +252,11 @@ MonoBehaviour:
     color: {r: 0, g: 0, b: 0, a: 0}
     size: 0
     percent: 0
-  wrapMode: 0
+  wrapMode: 1
   followMode: 0
   autoStartPosition: 0
-  _follow: 1
-  _startPosition: 0
+  _follow: 0
+  _startPosition: 0.0430000014603138
   preserveUniformSpeedWithOffset: 0
   _followSpeed: 1
   _followDuration: 1
@@ -256,15 +270,3 @@ MonoBehaviour:
   _unityOnBeginningReached:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &741071880342271218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7799419377674577242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e7ad5c42d40f74a92aa1ea4ec7b505, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Tile

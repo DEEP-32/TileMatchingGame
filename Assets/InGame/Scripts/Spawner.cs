@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dreamteck.Splines;
 using TileMatching.Data;
 using TileMatching.Interaction;
 using TileMatching.Utils;
@@ -29,13 +30,18 @@ namespace TileMatching {
                 tileGameObject.transform.position = spawnPoints[i].position;
                 tileGameObject.transform.rotation = spawnPoints[i].rotation;
                 tileGameObject.SetActive(true);
-                spawnedTiles.Add(tileGameObject.GetComponent<Tile>());
+                var tile = tileGameObject.GetComponent<Tile>();
+                tile.Initialize(GameManager.Instance.LevelDataHolder.SplineComputer,tileColorKey);
+                spawnedTiles.Add(tile);
             }
         }
 
         public void Interact() {
-            var toTransform = GameManager.Instance.LevelDataHolder.StartPoint;
-            TileHandler.Instance.AnimateTiles(spawnedTiles,toTransform);
+            var levelData = GameManager.Instance.LevelDataHolder;
+            var toTransform = levelData.StartPoint;
+            TileHandler.Instance.AnimateTiles(spawnedTiles,toTransform, (tile) => {
+                tile.AllowSplineMovement(true, levelData.GetStartPointPercent());
+            });
         }
     }
 }
