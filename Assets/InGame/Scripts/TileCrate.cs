@@ -14,14 +14,8 @@ namespace TileMatching {
         [SerializeField] TilePositionHolder pointsHolder;
         [SerializeField] int triggerIndex = 0;
 
-        
-        [Header("Animation Settings")]
-        [SerializeField] float moveAnimationOffset = 1;
-        [SerializeField] float moveAnimationTime = .2f;
-        [Space]
-        [SerializeField] float scaleAnimationTime = .25f;
-        [SerializeField] Vector3 scaleAnimationFinalValue = Vector3.zero;
-        [SerializeField] Ease scaleAnimationEase = Ease.InOutBounce;
+
+        TileCrateAnimationData animationData;
         
 
         List<Tile> tiles = new List<Tile>();
@@ -54,7 +48,8 @@ namespace TileMatching {
         
         
 
-        public void Initialize(SplineTrigger trigger) {
+        public void Initialize(SplineTrigger trigger,TileCrateAnimationData animationData) {
+            this.animationData = animationData;
             SplineTrigger = trigger;
             var pointsCount = pointsHolder.Points.Count;
             tiles.Capacity = pointsCount;
@@ -97,21 +92,21 @@ namespace TileMatching {
             Sequence sequence = DOTween.Sequence();
 
 
-            var moveTween = transform.DOMoveY(transform.position.y + moveAnimationOffset, moveAnimationTime);
+            var moveTween = transform.DOMoveY(transform.position.y + animationData.moveAnimationOffset, animationData.moveAnimationTime);
             
             sequence.Append(moveTween);
             
             foreach (var tile in tiles) {
-                var tileTween = tile.transform.DOMoveY(transform.position.y + moveAnimationOffset,moveAnimationTime);
+                var tileTween = tile.transform.DOMoveY(transform.position.y + animationData.moveAnimationOffset,animationData.moveAnimationTime);
                 sequence.Join(tileTween);
             }
             
             
-            var scaleTween = transform.DOScale(scaleAnimationFinalValue, scaleAnimationTime).SetEase(scaleAnimationEase).
+            var scaleTween = transform.DOScale(animationData.scaleAnimationFinalValue, animationData.scaleAnimationTime).SetEase(animationData.scaleAnimationEase).
                 OnComplete(() => {
                     ConsumeTile_Internal();
                     SetColorWithRandomValue();
-                    transform.DOScale(startScale, scaleAnimationTime).SetEase(scaleAnimationEase).OnComplete(() => {
+                    transform.DOScale(startScale, animationData.scaleAnimationTime).SetEase(animationData.scaleAnimationEase).OnComplete(() => {
                         currentAnimatingIndex = 0;
                     });
                 });
@@ -119,7 +114,7 @@ namespace TileMatching {
             
             sequence.Append(scaleTween);
             foreach (var tile in tiles) {
-                var tileTween = tile.transform.DOScale(scaleAnimationFinalValue, scaleAnimationTime).SetEase(scaleAnimationEase).OnComplete(() => {
+                var tileTween = tile.transform.DOScale(animationData.scaleAnimationFinalValue,animationData.scaleAnimationTime).SetEase(animationData.scaleAnimationEase).OnComplete(() => {
                     tile.transform.localScale = originalTileScale;
                 });
                 sequence.Join(tileTween);

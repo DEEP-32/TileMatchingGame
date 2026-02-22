@@ -33,7 +33,7 @@ namespace TileMatching{
             foreach (var tileCrate in LevelDataHolder.TileCrates) {
                 Debug.Log("Initializing tile crate : " + tileCrate.name + "for index : " + tileCrate.TriggerIndex +" and spline trigger size: " + splineTriggers.Length);
                 var splineTrigger = splineTriggers[tileCrate.TriggerIndex];
-                tileCrate.Initialize(splineTrigger);
+                tileCrate.Initialize(splineTrigger,GameConfig.TileCrateAnimationData);
             }
             
             

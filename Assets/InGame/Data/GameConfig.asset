@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Data.GameConfig
   tileMatcherData: {fileID: 11400000, guid: 66d62231e41e9794ab90e116d00bf6a9, type: 2}
+  tileCrateAnimationData: {fileID: 11400000, guid: bfd77dcb8b00f9649bf731f8197e9d6e, type: 2}
