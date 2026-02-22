@@ -12,10 +12,10 @@ namespace TileMatching.Utils {
         [SerializeField] bool shouldPoolAutomatically = false;
         [SerializeField] List<GameObject> objectsToPool;
         
-        Dictionary<GameObject, ObjectPool<GameObject>> pools = new Dictionary<GameObject, ObjectPool<GameObject>>();
+        Dictionary<string, ObjectPool<GameObject>> pools = new Dictionary<string, ObjectPool<GameObject>>();
 
 
-        void Awake() {
+        protected override void Awake() {
             if (shouldPoolAutomatically) {
                 for (var i = 0; i < objectsToPool.Count; i++) {
                     InitializePool(objectsToPool[i]);
@@ -26,7 +26,7 @@ namespace TileMatching.Utils {
 
 
         public void InitializePool(GameObject prefab) {
-            if (pools == null || pools.ContainsKey(prefab)) {
+            if (pools == null || pools.ContainsKey(prefab.name)) {
                 return;
             }
 
@@ -40,36 +40,45 @@ namespace TileMatching.Utils {
                 maxSize:MaxPoolSize
             );
             
-            pools.Add(prefab, newPool);
+            pools.Add(prefab.name, newPool);
         }
 
         private GameObject InstantiatePooledObject(GameObject prefab) {
-            var instance = Instantiate(prefab, transform);
-            instance.SetActive(false);
-            return instance;
+            var instanceObj = Instantiate(prefab, transform);
+            instanceObj.name = prefab.name;
+            instanceObj.SetActive(false);
+            return instanceObj;
         }
 
-        public void PreWarmPool(GameObject prefab) {
+        public void PreWarmPool(GameObject obj) {
             List<GameObject> objects = new List<GameObject>(defaultPoolSize);
-            if (pools == null || !pools.ContainsKey(prefab)) {
-                Debug.LogWarning($"Cant pre warm the {prefab.name} as its not initialized");
+            if (pools == null || !pools.ContainsKey(obj.name)) {
+                Debug.LogWarning($"Cant pre warm the {obj.name} as its not initialized");
                 return;
             }
-            var currentPool = pools[prefab];
+            var currentPool = pools[obj.name];
             for (int i = 0; i < defaultPoolSize; i++) {
-                var obj = currentPool.Get();
+                var newObj = currentPool.Get();
                 objects.Insert(i,obj);
             }
             
             objects.ForEach(obj => currentPool.Release(obj));
         }
         
-        public GameObject GetPooledObject(GameObject prefab) {
-            if (pools == null || !pools.ContainsKey(prefab)) {
+        public GameObject GetPooledObject(GameObject obj) {
+            if (pools == null || !pools.ContainsKey(obj.name)) {
                 return null;
             }
             
-            return pools[prefab].Get();
+            return pools[obj.name].Get();
+        }
+        
+        public void ReturnToPool(GameObject obj) {
+            if (pools == null || !pools.ContainsKey(obj.name)) {
+                return;
+            }
+            
+            pools[obj.name].Release(obj);
         }
     }
 }

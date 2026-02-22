@@ -8,18 +8,25 @@ using UnityEngine;
 namespace TileMatching {
     public class LevelStaticDataHolder : MonoBehaviour {
         [SerializeField] SplineComputer splineComputer;
-        
         [SerializeField] Transform startPoint;
-        List<Spawner> spawners = new List<Spawner>();
+        
+        List<Spawner> spawners;
+        List<TileCrate> tileCrates;
         
         public Transform StartPoint => startPoint;
         public SplineComputer SplineComputer => splineComputer;
         public IReadOnlyList<Spawner> Spawners => spawners;
+        public IReadOnlyList<TileCrate> TileCrates => tileCrates;       
         
         public double GetStartPointPercent() => startPoint.GetComponent<SplineFollower>().GetPercent();
 
         void Awake() {
             spawners = FindObjectsByType<Spawner>(FindObjectsInactive.Exclude,FindObjectsSortMode.None).ToList();
+            tileCrates = FindObjectsByType<TileCrate>(FindObjectsInactive.Exclude,FindObjectsSortMode.None).ToList();
+        }
+
+        public TileCrate GetTileCrateForTrigger(SplineTrigger trigger) {
+            return tileCrates.FirstOrDefault(crate => crate.SplineTrigger == trigger);
         }
 
 

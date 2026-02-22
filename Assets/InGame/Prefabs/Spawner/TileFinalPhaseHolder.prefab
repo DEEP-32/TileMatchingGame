@@ -59,5 +59,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4802166618097203001, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6454709917446932689}
   m_SourcePrefab: {fileID: 100100000, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
+--- !u!114 &4711763679054817103 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2497788800417233933, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
+  m_PrefabInstance: {fileID: 2032704855017579708}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6814270950224483205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2f1028e66740b5baef17969e94b101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Spawning.TilePositionHolder
+--- !u!1 &6814270950224483205 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4802166618097203001, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
+  m_PrefabInstance: {fileID: 2032704855017579708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6454709917446932689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6814270950224483205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a22f6833920bd41904bf0800606f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileMatching.TileCrate
+  pointsHolder: {fileID: 4711763679054817103}
+  triggerIndex: 0

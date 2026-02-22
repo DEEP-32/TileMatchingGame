@@ -1,5 +1,6 @@
 using Dreamteck.Splines;
 using TileMatching.Data;
+using TileMatching.Utils;
 using UnityEngine;
 
 namespace TileMatching {
@@ -22,7 +23,10 @@ namespace TileMatching {
                 Debug.Log("Set percent to " + startPointRatio + " for " + splineFollower.name);
                 splineFollower.follow = true;
             }
-            
+        }
+
+        public void ReturnToPool() {
+            ObjectPooler.Instance.ReturnToPool(gameObject);
         }
     }
 }

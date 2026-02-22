@@ -19,22 +19,38 @@ namespace TileMatching{
             StartGame();
         }
 
-        private void StartGame() {
+        void StartGame() {
             var splineTriggers = LevelDataHolder.SplineComputer.triggerGroups[0].triggers;
-
             foreach (var trigger in splineTriggers) {
-                trigger.onCross.AddListener(OnSplineUserReachTrigger);
+                var currentTrigger = trigger;
+                trigger.onCross.AddListener(splineUser => {
+                    OnSplineUserReachTrigger(splineUser,currentTrigger);
+                });
+                
                 Debug.Log("Added listener for trigger : " + trigger.name);
             }
-
+            foreach (var tileCrate in LevelDataHolder.TileCrates) {
+                Debug.Log("Initializing tile crate : " + tileCrate.name + "for index : " + tileCrate.TriggerIndex +" and spline trigger size: " + splineTriggers.Length);
+                var splineTrigger = splineTriggers[tileCrate.TriggerIndex];
+                tileCrate.Initialize(splineTrigger);
+            }
+            
+            
+            
             foreach (var spawner in levelDataHolder.Spawners) {
                 spawner.Spawn();
             }
         }
         
-        private void OnSplineUserReachTrigger(SplineUser splineUser) {
+        void OnSplineUserReachTrigger(SplineUser splineUser,SplineTrigger trigger) {
             splineUser.enabled = false;
-            //TileHandler.Instance.AnimateTileFromSplineToEnd(splineUser.GetComponent<Tile>(),);
+            var tileCrateTo = LevelDataHolder.GetTileCrateForTrigger(trigger);
+            TileHandler.Instance.AnimateTileFromSplineToEnd(
+                splineUser.GetComponent<Tile>(),
+                tileCrateTo,
+                null,
+                tileCrateTo.ConsumeTiles
+            );
         }
     }
 }
