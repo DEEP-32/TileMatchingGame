@@ -20,8 +20,16 @@ namespace TileMatching.Spawning {
         [SerializeField,Tooltip("Which color tile it should spawn")] TileColorKey tileColorKey;
         [SerializeField] MeshRenderer meshRenderer;
         [SerializeField] TilePositionHolder spawnPointHolder;
+
+        bool canInteract = true;
         
-        List<Tile> spawnedTiles = new List<Tile>();
+        public List<Tile> SpawnedTiles {
+            get; private set;
+        } = new List<Tile>();
+        
+        
+        
+        public bool IsInteractable { get => canInteract;}
 
         public void Spawn(TileColorKey colorKey = TileColorKey.None) {
             if (colorKey == TileColorKey.None) {
@@ -36,36 +44,68 @@ namespace TileMatching.Spawning {
             SpawnTile(colorKey);
         }
         
-        public void SpawnTile(TileColorKey tileColorKey) {
+        public void SpawnTile(TileColorKey tileColorKey,bool shouldAnimate = false) {
+            canInteract = false;
+            Sequence sequence = DOTween.Sequence();
+            
             for (var i = 0; i < spawnPointHolder.Points.Count; i++) {
                 var tileGameObject = ObjectPooler.Instance.GetPooledObject(tilePrefab);
+                var localScale = tileGameObject.transform.localScale;
                 tileGameObject.transform.position = spawnPointHolder.Points[i].position;
                 tileGameObject.transform.rotation = spawnPointHolder.Points[i].rotation;
+                if (shouldAnimate) {
+                    tileGameObject.transform.localScale = Vector3.zero;
+                }
                 tileGameObject.SetActive(true);
                 var tile = tileGameObject.GetComponent<Tile>();
                 tile.Initialize(GameManager.Instance.LevelDataHolder.SplineComputer,tileColorKey);
-                spawnedTiles.Add(tile);
+                SpawnedTiles.Add(tile);
+
+                if (shouldAnimate) {
+                    float delay = .1f;
+                    var scaleTween = tileGameObject.transform.DOScale(localScale, .15f);
+                    if (i != 0) {
+                        scaleTween.SetDelay(delay);
+                    }
+                    sequence.Append(scaleTween);
+                }
+                
             }
+            
+            sequence.OnComplete(() => {
+                canInteract = true;
+            });
+            
+            sequence.Play();
         }
 
+        
+
         public void Interact() {
-            var levelData = GameManager.Instance.LevelDataHolder;
-            var toTransform = levelData.StartPoint;
-            TileHandler.Instance.AnimateTilesToSpline(
-                spawnedTiles,
-                toTransform,
-                OnSingleTileReached,
-                OnAnimationFinished
-            );
+            if (IsInGroupSpawner()) {
+                var spawnerGroupIndicator = GetComponentInParent<SpawnerGroup>();
+                spawnerGroupIndicator.HandleSpawnerClick(this);
+            }
+            else {
+                var levelData = GameManager.Instance.LevelDataHolder;
+                var toTransform = levelData.StartPoint;
+                TileHandler.Instance.AnimateTilesToSpline(
+                    SpawnedTiles,
+                    toTransform,
+                    OnSingleTileReached,
+                    OnAnimationFinished
+                );
+            }
+            
         }
         
-        private void OnSingleTileReached(Tile tile) {
+        public void OnSingleTileReached(Tile tile) {
             var levelData = GameManager.Instance.LevelDataHolder;
             tile.AllowSplineMovement(true, levelData.GetStartPointPercent());
         }
 
         public void OnAnimationFinished() {
-            spawnedTiles.Clear();
+            SpawnedTiles.Clear();
             
             var moveDirection = transform.right;
             var currentPosition = transform.position;
@@ -81,10 +121,15 @@ namespace TileMatching.Spawning {
             sequence.OnComplete(() => {
                 var randomEnumValue = Utility.GetRandomEnumValue<TileColorKey>(TileColorKey.None);
                 Debug.Log($"Spawning with key : {randomEnumValue}");
-                SpawnTile(randomEnumValue);
+                SpawnTile(randomEnumValue,true);
             });
 
             sequence.Play();
         }
+
+        public bool IsInGroupSpawner() {
+            return GetComponentInParent<SpawnerGroup>() != null;
+        }
+
     }
 }

@@ -13,7 +13,7 @@ namespace TileMatching {
             private set;
         }
 
-        public void Initialize(SplineComputer spline,TileColorKey tileColorKey = TileColorKey.None) {
+        public void Initialize(SplineComputer spline,TileColorKey tileColorKey = TileColorKey.None,bool shouldAnimate = false) {
             splineFollower.spline = spline;
 
             if (tileColorKey != TileColorKey.None) {

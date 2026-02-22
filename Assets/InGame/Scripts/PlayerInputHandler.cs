@@ -40,7 +40,8 @@ namespace TileMatching {
 
                     if (hit.transform.TryGetComponent(out IInteractable interactable)) {
                         Debug.Log("Interacting with : " + hit.collider.gameObject.name);
-                        interactable.Interact();
+                        if(interactable.IsInteractable)
+                            interactable.Interact();
                     }
 
                     // Interaction logic here
