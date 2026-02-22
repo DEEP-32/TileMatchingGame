@@ -14,6 +14,16 @@ namespace TileMatching {
         [SerializeField] TilePositionHolder pointsHolder;
         [SerializeField] int triggerIndex = 0;
 
+        
+        [Header("Animation Settings")]
+        [SerializeField] float moveAnimationOffset = 1;
+        [SerializeField] float moveAnimationTime = .2f;
+        [Space]
+        [SerializeField] float scaleAnimationTime = .25f;
+        [SerializeField] Vector3 scaleAnimationFinalValue = Vector3.zero;
+        [SerializeField] Ease scaleAnimationEase = Ease.InOutBounce;
+        
+
         List<Tile> tiles = new List<Tile>();
         int currentAnimatingIndex = 0;
 
@@ -87,21 +97,21 @@ namespace TileMatching {
             Sequence sequence = DOTween.Sequence();
 
 
-            var moveTween = transform.DOMoveY(transform.position.y + 1, .2f);
+            var moveTween = transform.DOMoveY(transform.position.y + moveAnimationOffset, moveAnimationTime);
             
             sequence.Append(moveTween);
             
             foreach (var tile in tiles) {
-                var tileTween = tile.transform.DOMoveY(transform.position.y + 1, .2f);
+                var tileTween = tile.transform.DOMoveY(transform.position.y + moveAnimationOffset,moveAnimationTime);
                 sequence.Join(tileTween);
             }
             
             
-            var scaleTween = transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).
+            var scaleTween = transform.DOScale(scaleAnimationFinalValue, scaleAnimationTime).SetEase(scaleAnimationEase).
                 OnComplete(() => {
                     ConsumeTile_Internal();
                     SetColorWithRandomValue();
-                    transform.DOScale(startScale, .25f).SetEase(Ease.InOutBounce).OnComplete(() => {
+                    transform.DOScale(startScale, scaleAnimationTime).SetEase(scaleAnimationEase).OnComplete(() => {
                         currentAnimatingIndex = 0;
                     });
                 });
@@ -109,7 +119,7 @@ namespace TileMatching {
             
             sequence.Append(scaleTween);
             foreach (var tile in tiles) {
-                var tileTween = tile.transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).OnComplete(() => {
+                var tileTween = tile.transform.DOScale(scaleAnimationFinalValue, scaleAnimationTime).SetEase(scaleAnimationEase).OnComplete(() => {
                     tile.transform.localScale = originalTileScale;
                 });
                 sequence.Join(tileTween);
