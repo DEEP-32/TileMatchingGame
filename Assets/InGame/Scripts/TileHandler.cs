@@ -63,6 +63,7 @@ namespace TileMatching {
 
             sequence.OnComplete(() => {
                 toCrate.AddTile(tile);
+                activeFollowers.Remove(tile.GetComponent<SplineFollower>());
                 onSingleTileComplete?.Invoke();
                 if (toCrate.IsAtMaxIndex()) {
                     onTileCrateFull?.Invoke();
