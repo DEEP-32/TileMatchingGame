@@ -82,7 +82,8 @@ namespace TileMatching {
 
         private void StartEndAnimation() {
             var startScale = transform.localScale;
-            transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).
+            var originalTileScale = tiles[0].transform.localScale;
+            var scaleTween = transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).
                 OnComplete(() => {
                     ConsumeTile_Internal();
                     SetColorWithRandomValue();
@@ -90,6 +91,18 @@ namespace TileMatching {
                         currentAnimatingIndex = 0;
                     });
                 });
+            
+            Sequence sequence = DOTween.Sequence();
+            
+            sequence.Append(scaleTween);
+            foreach (var tile in tiles) {
+                var tileTween = tile.transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).OnComplete(() => {
+                    tile.transform.localScale = originalTileScale;
+                });
+                sequence.Join(tileTween);
+            }
+            
+            sequence.Play();
         }
 
         private void ConsumeTile_Internal() {
