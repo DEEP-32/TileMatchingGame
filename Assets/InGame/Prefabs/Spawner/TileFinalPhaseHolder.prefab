@@ -75,6 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2f1028e66740b5baef17969e94b101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileMatching.Spawning.TilePositionHolder
+--- !u!23 &6376713612420128449 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4921094590657460861, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
+  m_PrefabInstance: {fileID: 2032704855017579708}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6814270950224483205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4802166618097203001, guid: 117f09e6310362c4da23cf23feac42d1, type: 3}
@@ -92,5 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a22f6833920bd41904bf0800606f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileMatching.TileCrate
+  meshRenderer: {fileID: 6376713612420128449}
   pointsHolder: {fileID: 4711763679054817103}
   triggerIndex: 0

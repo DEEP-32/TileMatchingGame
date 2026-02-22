@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Dreamteck.Splines;
 using TileMatching.Data;
+using TileMatching.Spawning;
 using TileMatching.Utils;
 using UnityEngine;
 
@@ -43,8 +44,14 @@ namespace TileMatching{
         }
         
         void OnSplineUserReachTrigger(SplineUser splineUser,SplineTrigger trigger) {
-            splineUser.enabled = false;
             var tileCrateTo = LevelDataHolder.GetTileCrateForTrigger(trigger);
+            var tile = splineUser.GetComponent<Tile>();
+            if (tile.CurrentColorKey != tileCrateTo.CurrentColorKey) {
+                return;
+            }
+            
+            splineUser.enabled = false;
+           
             TileHandler.Instance.AnimateTileFromSplineToEnd(
                 splineUser.GetComponent<Tile>(),
                 tileCrateTo,

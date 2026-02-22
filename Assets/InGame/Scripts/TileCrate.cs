@@ -2,19 +2,28 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Dreamteck.Splines;
+using TileMatching.Data;
 using TileMatching.Spawning;
+using TileMatching.Utils;
 using UnityEngine;
 
 namespace TileMatching {
     public class TileCrate : MonoBehaviour {
+        readonly static int BaseColor = Shader.PropertyToID("_BaseColor");
+        [SerializeField] MeshRenderer meshRenderer;
         [SerializeField] TilePositionHolder pointsHolder;
-        [SerializeField] int triggerIndex = 0; 
+        [SerializeField] int triggerIndex = 0;
 
         List<Tile> tiles = new List<Tile>();
         int currentAnimatingIndex = 0;
 
         public int CurrentIndex {
             get; 
+            private set;
+        }
+
+        public TileColorKey CurrentColorKey {
+            get;
             private set;
         }
         
@@ -39,6 +48,19 @@ namespace TileMatching {
             SplineTrigger = trigger;
             var pointsCount = pointsHolder.Points.Count;
             tiles.Capacity = pointsCount;
+
+            SetColorWithRandomValue();
+        }
+
+        void SetColorWithRandomValue() {
+            var randomEnumValue = Utility.GetRandomEnumValue<TileColorKey>(TileColorKey.None);
+            CurrentColorKey = randomEnumValue;
+            SetColor(randomEnumValue);
+        }
+
+        void SetColor(TileColorKey tileColorKey) {
+            var tileColor = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(tileColorKey).TileColor;
+            meshRenderer.material.SetColor(BaseColor, tileColor);
         }
 
         public void AddTile(Tile tile) {
@@ -63,6 +85,7 @@ namespace TileMatching {
             transform.DOScale(Vector3.zero, .25f).SetEase(Ease.InOutBounce).
                 OnComplete(() => {
                     ConsumeTile_Internal();
+                    SetColorWithRandomValue();
                     transform.DOScale(startScale, .25f).SetEase(Ease.InOutBounce).OnComplete(() => {
                         currentAnimatingIndex = 0;
                     });

@@ -59,7 +59,7 @@ namespace TileMatching.Utils {
             var currentPool = pools[obj.name];
             for (int i = 0; i < defaultPoolSize; i++) {
                 var newObj = currentPool.Get();
-                objects.Insert(i,obj);
+                objects.Insert(i,newObj);
             }
             
             objects.ForEach(obj => currentPool.Release(obj));

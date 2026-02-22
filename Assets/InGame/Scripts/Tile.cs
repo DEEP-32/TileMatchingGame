@@ -8,10 +8,16 @@ namespace TileMatching {
         [SerializeField] SplineFollower splineFollower;
         [SerializeField] MeshRenderer meshRenderer;
 
+        public TileColorKey CurrentColorKey {
+            get;
+            private set;
+        }
+
         public void Initialize(SplineComputer spline,TileColorKey tileColorKey = TileColorKey.None) {
             splineFollower.spline = spline;
 
             if (tileColorKey != TileColorKey.None) {
+                CurrentColorKey = tileColorKey;
                 meshRenderer.material = GameManager.Instance.GameConfig.GetTimeMatcherDataFor(tileColorKey).Material;
             }
         }
