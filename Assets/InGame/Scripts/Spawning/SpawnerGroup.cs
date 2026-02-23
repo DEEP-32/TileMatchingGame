@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using TileMatching.Data;
+using TileMatching.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,20 +11,13 @@ namespace TileMatching.Spawning {
     
     
     public class SpawnerGroup : MonoBehaviour {
+        [SerializeField] Spawner lastDisabledSpawner;
         
-        [SerializeField] List<Spawner> spawners;
-        Queue<Spawner> availableSpawners;
-
-        void Awake() {
-            availableSpawners = new Queue<Spawner>(spawners);
-            foreach (var spawner in spawners) {
-                availableSpawners.Enqueue(spawner);
-            }
-        }
-
+        [FormerlySerializedAs("spawners")] [SerializeField] List<Spawner> activeSpawners;
+        
         public void HandleSpawnerClick(Spawner spawner) {
 
-            if (spawner != spawners.Last()) {
+            if (spawner != activeSpawners.First()) {
                 return;
             }
             
@@ -37,25 +32,56 @@ namespace TileMatching.Spawning {
         }
 
         public void OnAnimationFinished() {
-            /*var spawner = spawners.Last();
+            var firstSpawner = activeSpawners.First();
+            var secondSpawner = activeSpawners[1];
+            
+            var diffZ = secondSpawner.transform.position.z - firstSpawner.transform.position.z;
+            
             Sequence sequence = DOTween.Sequence();
 
-            var lastIndex = spawners.Count - 1;
-            float step = spawners[lastIndex].transform.position.z - spawners[lastIndex - 1].transform.position.z;
-            
-            var aheadSpawnerPos = transform.position;
-            var farSpawnrPos = spawner.transform.position;
+            var firstMoveTween = firstSpawner.transform.DOMoveZ(firstSpawner.transform.position.z - diffZ, .25f).
+                OnComplete(() => {
+                    firstSpawner.gameObject.SetActive(false);
+                });
 
-            var aheadSpawnerMove = spawner.transform.DOMoveZ(spawner.transform.position.z + step, .25f);
-            sequence.Append(aheadSpawnerMove);
-
-
-            for (int i = lastIndex - 1; i >= 0; i--) {
-                float targetZ = spawners[i + 1].transform.position.z;
-                sequence.Join(spawners[i].transform.DOMoveZ(targetZ, .25f));
+            sequence.Append(firstMoveTween);
+            //starting from second because the first is already taken care of.
+            for (var i = 1; i < activeSpawners.Count; i++) {
+                var targetPos = activeSpawners[i - 1].transform.position;
+                var moveTween = activeSpawners[i].transform.DOMoveZ(targetPos.z, .25f);
+                sequence.Join(moveTween);
+                var diff = activeSpawners[i].transform.position.z - targetPos.z;
+                
+                foreach (var spawnedTile in activeSpawners[i].SpawnedTiles) {
+                    var targetForTile = spawnedTile.transform.position.z - diff;
+                    
+                    var tileMoveTween = spawnedTile.transform.DOMoveZ(targetForTile, .25f);
+                    sequence.Join(tileMoveTween);
+                }
             }
             
-            sequence.On*/
+            var lastSpawner = activeSpawners.Last();
+            var disabledSpawnerPos = lastDisabledSpawner.transform.position;
+            lastDisabledSpawner.transform.DOMoveZ(lastSpawner.transform.position.z, .25f);
+
+
+            sequence.OnComplete(() => {
+                activeSpawners.RemoveAt(0);
+                activeSpawners.Add(lastDisabledSpawner);
+                
+                lastDisabledSpawner.gameObject.SetActive(true);
+                
+                var randomEnumValue = Utility.GetRandomEnumValue<TileColorKey>(TileColorKey.None);
+                lastDisabledSpawner.SpawnTile(randomEnumValue,true);
+                
+                lastDisabledSpawner = firstSpawner;
+                firstSpawner.transform.position = disabledSpawnerPos;
+            });
+
+        }
+        
+        public bool AreWeHandlingThisSpawner(Spawner spawner) {
+            return activeSpawners.Contains(spawner);
         }
         
     }

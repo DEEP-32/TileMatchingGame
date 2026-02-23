@@ -34,5 +34,9 @@ namespace TileMatching {
         public void ReturnToPool() {
             ObjectPooler.Instance.ReturnToPool(gameObject);
         }
+
+        public void ReparentToPool() {
+            transform.SetParent(ObjectPooler.Instance.transform);
+        }
     }
 }

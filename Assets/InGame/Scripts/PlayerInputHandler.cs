@@ -36,10 +36,10 @@ namespace TileMatching {
                 var ray = cam.ScreenPointToRay(tapPos);
                 
                 if (Physics.Raycast(ray, out RaycastHit hit,Mathf.Infinity,tapLayerMask,QueryTriggerInteraction.Ignore)) {
-                    Debug.Log("Hit: " + hit.collider.gameObject.name);
+                    //Debug.Log("Hit: " + hit.collider.gameObject.name);
 
                     if (hit.transform.TryGetComponent(out IInteractable interactable)) {
-                        Debug.Log("Interacting with : " + hit.collider.gameObject.name);
+                        //Debug.Log("Interacting with : " + hit.collider.gameObject.name);
                         if(interactable.IsInteractable)
                             interactable.Interact();
                     }

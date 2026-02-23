@@ -83,10 +83,12 @@ namespace TileMatching.Spawning {
 
         public void Interact() {
             if (IsInGroupSpawner()) {
+                Debug.Log($"Spawner interaction : {gameObject.name} is handled spawner group handler");
                 var spawnerGroupIndicator = GetComponentInParent<SpawnerGroup>();
                 spawnerGroupIndicator.HandleSpawnerClick(this);
             }
             else {
+                Debug.Log($"Spawner interaction : {gameObject.name} is handled by itself");
                 var levelData = GameManager.Instance.LevelDataHolder;
                 var toTransform = levelData.StartPoint;
                 TileHandler.Instance.AnimateTilesToSpline(
@@ -128,7 +130,8 @@ namespace TileMatching.Spawning {
         }
 
         public bool IsInGroupSpawner() {
-            return GetComponentInParent<SpawnerGroup>() != null;
+            var spawnerGroup = GetComponentInParent<SpawnerGroup>();
+            return spawnerGroup != null && spawnerGroup.AreWeHandlingThisSpawner(this);
         }
 
     }

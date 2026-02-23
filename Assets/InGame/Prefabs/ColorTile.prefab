@@ -246,11 +246,11 @@ MonoBehaviour:
   targetRigidbody2D: {fileID: 0}
   targetTransform: {fileID: 8448374763259070050}
   _result:
-    position: {x: 1.0053797, y: -0.11693647, z: 29.095245}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.3390465, y: 0, z: -0.36748803}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 0.5
+    position: {x: 0, y: 0, z: 0}
+    up: {x: 0, y: 0, z: 0}
+    forward: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    size: 0
     percent: 0
   wrapMode: 1
   followMode: 0
